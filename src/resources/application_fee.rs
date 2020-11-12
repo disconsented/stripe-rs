@@ -2,17 +2,16 @@
 // This file was automatically generated.
 // ======================================
 
+use serde_derive::{Deserialize, Serialize};
+
 use crate::config::{Client, Response};
 use crate::ids::{ApplicationFeeId, ChargeId};
 use crate::params::{Expand, Expandable, List, Object, RangeQuery, Timestamp};
 use crate::resources::{
     Account, Application, ApplicationFeeRefund, BalanceTransaction, Charge, Currency,
 };
-use serde_derive::{Deserialize, Serialize};
 
 /// The resource representing a Stripe "PlatformFee".
-///
-/// For more details see [https://stripe.com/docs/api/application_fees/object](https://stripe.com/docs/api/application_fees/object).
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ApplicationFee {
     /// Unique identifier for the object.

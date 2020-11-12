@@ -2,17 +2,16 @@
 // This file was automatically generated.
 // ======================================
 
+use serde_derive::{Deserialize, Serialize};
+
 use crate::config::{Client, Response};
 use crate::ids::{CustomerId, PaymentMethodId, SetupIntentId};
 use crate::params::{Expand, Expandable, List, Metadata, Object, RangeQuery, Timestamp};
 use crate::resources::{
-    Account, ApiErrors, Application, Currency, Customer, Mandate, PaymentMethod,
+    Account, ApiErrors, Application, Currency, Customer, Mandate, PaymentMethod, SetupAttempt,
 };
-use serde_derive::{Deserialize, Serialize};
 
 /// The resource representing a Stripe "SetupIntent".
-///
-/// For more details see [https://stripe.com/docs/api/setup_intents/object](https://stripe.com/docs/api/setup_intents/object).
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct SetupIntent {
     /// Unique identifier for the object.
@@ -57,6 +56,10 @@ pub struct SetupIntent {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub last_setup_error: Option<ApiErrors>,
 
+    /// The most recent SetupAttempt for this SetupIntent.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub latest_attempt: Option<Expandable<SetupAttempt>>,
+
     /// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
     pub livemode: bool,
 
@@ -64,7 +67,7 @@ pub struct SetupIntent {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub mandate: Option<Expandable<Mandate>>,
 
-    /// Set of key-value pairs that you can attach to an object.
+    /// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object.
     ///
     /// This can be useful for storing additional information about the object in a structured format.
     #[serde(default)]
@@ -229,7 +232,7 @@ pub struct CreateSetupIntent<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub mandate_data: Option<CreateSetupIntentMandateData>,
 
-    /// Set of key-value pairs that you can attach to an object.
+    /// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object.
     ///
     /// This can be useful for storing additional information about the object in a structured format.
     /// Individual keys can be unset by posting an empty value to them.
@@ -364,7 +367,7 @@ pub struct UpdateSetupIntent<'a> {
     #[serde(skip_serializing_if = "Expand::is_empty")]
     pub expand: &'a [&'a str],
 
-    /// Set of key-value pairs that you can attach to an object.
+    /// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object.
     ///
     /// This can be useful for storing additional information about the object in a structured format.
     /// Individual keys can be unset by posting an empty value to them.

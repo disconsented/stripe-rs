@@ -2,15 +2,14 @@
 // This file was automatically generated.
 // ======================================
 
+use serde_derive::{Deserialize, Serialize};
+
 use crate::config::{Client, Response};
 use crate::ids::{FileId, FileLinkId};
 use crate::params::{Expand, Expandable, List, Metadata, Object, RangeQuery, Timestamp};
 use crate::resources::{File, Scheduled};
-use serde_derive::{Deserialize, Serialize};
 
 /// The resource representing a Stripe "FileLink".
-///
-/// For more details see [https://stripe.com/docs/api/file_links/object](https://stripe.com/docs/api/file_links/object).
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct FileLink {
     /// Unique identifier for the object.
@@ -34,7 +33,7 @@ pub struct FileLink {
     /// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
     pub livemode: bool,
 
-    /// Set of key-value pairs that you can attach to an object.
+    /// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object.
     ///
     /// This can be useful for storing additional information about the object in a structured format.
     pub metadata: Metadata,
@@ -98,7 +97,7 @@ pub struct CreateFileLink<'a> {
     /// The file's `purpose` must be one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `finance_report_run`, `pci_document`, `sigma_scheduled_query`, or `tax_document_user_upload`.
     pub file: FileId,
 
-    /// Set of key-value pairs that you can attach to an object.
+    /// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object.
     ///
     /// This can be useful for storing additional information about the object in a structured format.
     /// Individual keys can be unset by posting an empty value to them.
@@ -184,7 +183,7 @@ pub struct UpdateFileLink<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub expires_at: Option<Scheduled>,
 
-    /// Set of key-value pairs that you can attach to an object.
+    /// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object.
     ///
     /// This can be useful for storing additional information about the object in a structured format.
     /// Individual keys can be unset by posting an empty value to them.

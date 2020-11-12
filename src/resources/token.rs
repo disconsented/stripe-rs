@@ -2,17 +2,16 @@
 // This file was automatically generated.
 // ======================================
 
+use serde_derive::{Deserialize, Serialize};
+
 use crate::config::{Client, Response};
 use crate::ids::{CustomerId, TokenId};
 use crate::params::{Expand, Metadata, Object, Timestamp};
 use crate::resources::{
     Address, BankAccount, BusinessType, Card, CompanyParams, Dob, PersonParams, TokenType,
 };
-use serde_derive::{Deserialize, Serialize};
 
 /// The resource representing a Stripe "Token".
-///
-/// For more details see [https://stripe.com/docs/api/tokens/object](https://stripe.com/docs/api/tokens/object).
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Token {
     /// Unique identifier for the object.
@@ -83,6 +82,10 @@ pub struct CreateToken<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub customer: Option<CustomerId>,
 
+    /// The updated CVC value this token will represent.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub cvc_update: Option<CreateTokenCvcUpdate>,
+
     /// Specifies which fields in the response should be expanded.
     #[serde(skip_serializing_if = "Expand::is_empty")]
     pub expand: &'a [&'a str],
@@ -101,6 +104,7 @@ impl<'a> CreateToken<'a> {
         CreateToken {
             account: Default::default(),
             customer: Default::default(),
+            cvc_update: Default::default(),
             expand: Default::default(),
             person: Default::default(),
             pii: Default::default(),
@@ -121,6 +125,11 @@ pub struct CreateTokenAccount {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tos_shown_and_accepted: Option<bool>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct CreateTokenCvcUpdate {
+    pub cvc: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -172,6 +181,9 @@ pub struct CreateTokenPerson {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub phone: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub political_exposure: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub relationship: Option<CreateTokenPersonRelationship>,

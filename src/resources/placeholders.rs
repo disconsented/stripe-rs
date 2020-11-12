@@ -1,6 +1,7 @@
+use serde_derive::{Deserialize, Serialize};
+
 use crate::ids::*;
 use crate::params::Object;
-use serde_derive::{Deserialize, Serialize};
 
 #[cfg(not(feature = "connect"))]
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -107,12 +108,12 @@ impl Object for Coupon {
 #[cfg(not(feature = "billing"))]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Discount {
-    pub id: (),
+    pub id: DiscountId,
 }
 
 #[cfg(not(feature = "billing"))]
 impl Object for Discount {
-    type Id = ();
+    type Id = DiscountId;
     fn id(&self) -> Self::Id {
         self.id.clone()
     }

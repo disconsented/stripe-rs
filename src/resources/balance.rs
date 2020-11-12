@@ -2,9 +2,10 @@
 // This file was automatically generated.
 // ======================================
 
+use serde_derive::{Deserialize, Serialize};
+
 use crate::params::Object;
 use crate::resources::Currency;
-use serde_derive::{Deserialize, Serialize};
 
 /// The resource representing a Stripe "Balance".
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -19,6 +20,10 @@ pub struct Balance {
     /// The connect reserve balance for each currency and payment type can be found in the `source_types` property.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub connect_reserved: Option<Vec<BalanceAmount>>,
+
+    /// Funds that can be paid out using Instant Payouts.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub instant_available: Option<Vec<BalanceAmount>>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub issuing: Option<BalanceDetail>,
