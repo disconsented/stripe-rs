@@ -1,11 +1,14 @@
+// ======================================
+// This file was automatically generated.
+// ======================================
+
+use serde_derive::{Deserialize, Serialize};
+
 use crate::ids::CardId;
 use crate::params::{Expandable, Metadata, Object};
 use crate::resources::{Account, Currency, Customer, Recipient};
-use serde_derive::{Deserialize, Serialize};
 
 /// The resource representing a Stripe "Card".
-///
-/// For more details see [https://stripe.com/docs/api/cards/object](https://stripe.com/docs/api/cards/object).
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Card {
     /// Unique identifier for the object.
@@ -31,7 +34,7 @@ pub struct Card {
 
     /// If `address_line1` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub address_line1_check: Option<CheckResult>,
+    pub address_line1_check: Option<String>,
 
     /// Address line 2 (Apartment/Suite/Unit/Building).
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -47,20 +50,19 @@ pub struct Card {
 
     /// If `address_zip` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub address_zip_check: Option<CheckResult>,
+    pub address_zip_check: Option<String>,
 
     /// A set of available payout methods for this card.
     ///
-    /// Will be either `["standard"]` or `["standard", "instant"]`.
-    /// Only values from this set should be passed as the `method` when creating a transfer.
+    /// Only values from this set should be passed as the `method` when creating a payout.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub available_payout_methods: Option<Vec<String>>,
+    pub available_payout_methods: Option<Vec<CardAvailablePayoutMethods>>,
 
     /// Card brand.
     ///
     /// Can be `American Express`, `Diners Club`, `Discover`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub brand: Option<CardBrand>,
+    pub brand: Option<String>,
 
     /// Two-letter ISO code representing the country of the card.
     ///
@@ -68,6 +70,10 @@ pub struct Card {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub country: Option<String>,
 
+    /// Three-letter [ISO code for currency](https://stripe.com/docs/payouts).
+    ///
+    /// Only applicable on accounts (not customers or recipients).
+    /// The card can be used as a transfer destination for funds in this currency.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub currency: Option<Currency>,
 
@@ -78,8 +84,12 @@ pub struct Card {
     pub customer: Option<Expandable<Customer>>,
 
     /// If a CVC was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.
+    ///
+    /// A result of unchecked indicates that CVC was provided but hasn't been checked yet.
+    /// Checks are typically performed when attaching a card to a Customer object, or when creating a charge.
+    /// For more details, see [Check if a card is valid without a charge](https://support.stripe.com/questions/check-if-a-card-is-valid-without-a-charge).
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub cvc_check: Option<CheckResult>,
+    pub cvc_check: Option<String>,
 
     /// Whether this card is the default external account for its currency.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -88,6 +98,10 @@ pub struct Card {
     // Always true for a deleted object
     #[serde(default)]
     pub deleted: bool,
+
+    /// A high-level description of the type of cards issued in this range.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub description: Option<String>,
 
     /// (For tokenized numbers only.) The last four digits of the device account number.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -103,7 +117,8 @@ pub struct Card {
 
     /// Uniquely identifies this particular card number.
     ///
-    /// You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example.
+    /// You can use this attribute to check whether two customers who’ve signed up with you are using the same card number, for example.
+    /// For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub fingerprint: Option<String>,
 
@@ -111,13 +126,21 @@ pub struct Card {
     ///
     /// Can be `credit`, `debit`, `prepaid`, or `unknown`.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub funding: Option<CardType>,
+    pub funding: Option<String>,
+
+    /// Issuer identification number of the card.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub iin: Option<String>,
+
+    /// The name of the card's issuing bank.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub issuer: Option<String>,
 
     /// The last four digits of the card.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub last4: Option<String>,
 
-    /// Set of key-value pairs that you can attach to an object.
+    /// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object.
     ///
     /// This can be useful for storing additional information about the object in a structured format.
     #[serde(default)]
@@ -135,75 +158,9 @@ pub struct Card {
 
     /// If the card number is tokenized, this is the method that was used.
     ///
-    /// Can be `apple_pay` or `google_pay`.
+    /// Can be `android_pay` (includes Google Pay), `apple_pay`, `masterpass`, `visa_checkout`, or null.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub tokenization_method: Option<TokenizationMethod>,
-}
-
-#[derive(Copy, Clone, Debug, Deserialize, Serialize, Eq, PartialEq)]
-pub enum CheckResult {
-    #[serde(rename = "pass")]
-    Pass,
-    #[serde(rename = "fail")]
-    Failed,
-    #[serde(rename = "unavailable")]
-    Unavailable,
-    #[serde(rename = "unchecked")]
-    Unchecked,
-}
-
-#[derive(Copy, Clone, Debug, Deserialize, Serialize, Eq, PartialEq)]
-pub enum CardBrand {
-    #[serde(rename = "American Express")]
-    AmericanExpress,
-    #[serde(rename = "Diners Club")]
-    DinersClub,
-    #[serde(rename = "Discover")]
-    Discover,
-    #[serde(rename = "JCB")]
-    JCB,
-    #[serde(rename = "Visa")]
-    Visa,
-    #[serde(rename = "MasterCard")]
-    MasterCard,
-    #[serde(rename = "UnionPay")]
-    UnionPay,
-
-    /// An unknown card brand.
-    ///
-    /// May also be a variant not yet supported by the library.
-    #[serde(other)]
-    #[serde(rename = "Unknown")]
-    Unknown,
-}
-
-#[derive(Copy, Clone, Debug, Deserialize, Serialize, Eq, PartialEq)]
-pub enum CardType {
-    #[serde(rename = "credit")]
-    Credit,
-    #[serde(rename = "debit")]
-    Debit,
-    #[serde(rename = "prepaid")]
-    Prepaid,
-
-    /// An unknown card type.
-    ///
-    /// May also be a variant not yet supported by the library.
-    #[serde(other)]
-    #[serde(rename = "unknown")]
-    Unknown,
-}
-
-#[derive(Copy, Clone, Debug, Deserialize, Serialize, Eq, PartialEq)]
-#[serde(rename_all = "snake_case")]
-pub enum TokenizationMethod {
-    ApplePay,
-    AndroidPay,
-
-    /// A variant not yet supported by the library.
-    /// It is an error to send `Other` as part of a request.
-    #[serde(other, skip_serializing)]
-    Other,
+    pub tokenization_method: Option<String>,
 }
 
 impl Object for Card {
@@ -213,5 +170,34 @@ impl Object for Card {
     }
     fn object(&self) -> &'static str {
         "card"
+    }
+}
+
+/// An enum representing the possible values of an `Card`'s `available_payout_methods` field.
+#[derive(Copy, Clone, Debug, Deserialize, Serialize, Eq, PartialEq)]
+#[serde(rename_all = "snake_case")]
+pub enum CardAvailablePayoutMethods {
+    Instant,
+    Standard,
+}
+
+impl CardAvailablePayoutMethods {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            CardAvailablePayoutMethods::Instant => "instant",
+            CardAvailablePayoutMethods::Standard => "standard",
+        }
+    }
+}
+
+impl AsRef<str> for CardAvailablePayoutMethods {
+    fn as_ref(&self) -> &str {
+        self.as_str()
+    }
+}
+
+impl std::fmt::Display for CardAvailablePayoutMethods {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        self.as_str().fmt(f)
     }
 }

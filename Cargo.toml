@@ -9,8 +9,9 @@ name = "stripe-rust" # b.c. stripe and stripe-rs were already taken
 version = "0.13.0-dev"
 description = "API bindings for the Stripe HTTP API"
 authors = [
-  "Anna Baldwin <abaldwin@developers.wyyerd.com>",
-  "Kevin Stenerson <kestred@users.noreply.github.com>"
+    "Anna Baldwin <abaldwin@developers.wyyerd.com>",
+    "Kevin Stenerson <kestred@users.noreply.github.com>",
+    "James Kerr <disconsented@users.noreply.github.com>"
 ]
 license = "MIT OR Apache-2.0"
 readme = "README.md"
@@ -22,7 +23,7 @@ categories = ["api-bindings"]
 edition = "2018"
 
 [badges]
-travis-ci = {repository = "wyyerd/stripe-rs"}
+travis-ci = { repository = "wyyerd/stripe-rs" }
 
 [lib]
 name = "stripe"
@@ -30,8 +31,8 @@ name = "stripe"
 [features]
 default = ["full", "webhook-events", "default-tls"]
 full = [
-#    "core",
-#    "payment-methods",
+    #    "core",
+    #    "payment-methods",
     "checkout",
     "billing",
     "connect",
