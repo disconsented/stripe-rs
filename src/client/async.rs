@@ -1,17 +1,18 @@
-use crate::error::{Error, ErrorResponse, RequestError};
-use crate::params::{AppInfo, Headers};
-use crate::resources::ApiVersion;
-use futures_util::future;
-use http::header::{HeaderMap, HeaderName, HeaderValue};
-use http::request::Builder as RequestBuilder;
-use serde::de::DeserializeOwned;
 use std::future::Future;
 use std::pin::Pin;
 
+use futures_util::future;
+use http::header::{HeaderMap, HeaderName, HeaderValue};
+use http::request::Builder as RequestBuilder;
 #[cfg(feature = "rustls-tls")]
 use hyper_rustls::HttpsConnector;
 #[cfg(feature = "default-tls")]
 use hyper_tls::HttpsConnector;
+use serde::de::DeserializeOwned;
+
+use crate::error::{Error, ErrorResponse, RequestError};
+use crate::params::{AppInfo, Headers};
+
 #[cfg(all(feature = "default-tls", feature = "rustls-tls"))]
 compile_error!("You must enable only one TLS implementation");
 #[cfg(not(any(feature = "default-tls", feature = "rustls-tls")))]
@@ -19,7 +20,7 @@ compile_error!("You must enable at least one TLS implementation; add `features =
 
 type HttpClient = hyper::Client<HttpsConnector<hyper::client::HttpConnector>, hyper::Body>;
 
-pub type Response<T> = Pin<Box<dyn Future<Output = Result<T, Error>> + Send>>;
+pub type Response<T> = Pin<Box<dyn Future<Output=Result<T, Error>> + Send>>;
 
 #[allow(dead_code)]
 #[inline(always)]
@@ -56,7 +57,7 @@ impl Client {
         let client = hyper::Client::builder().build(https);
         let mut headers = Headers::default();
         // TODO: Automatically determine the latest supported api version in codegen?
-        headers.stripe_version = Some(ApiVersion::V2019_09_09);
+        headers.stripe_version = Some(crate::ApiVersion::V2020_08_27);
         Client {
             host,
             client,

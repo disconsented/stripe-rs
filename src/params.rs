@@ -1,9 +1,11 @@
-use crate::config::{err, ok, Client, Response};
-use crate::error::Error;
-use crate::resources::ApiVersion;
+use std::collections::HashMap;
+
 use serde::de::DeserializeOwned;
 use serde_derive::{Deserialize, Serialize};
-use std::collections::HashMap;
+
+use crate::ApiVersion;
+use crate::config::{Client, err, ok, Response};
+use crate::error::Error;
 
 #[derive(Clone, Default)]
 pub struct AppInfo {

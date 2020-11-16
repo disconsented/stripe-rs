@@ -4,13 +4,10 @@
 
 use serde_derive::{Deserialize, Serialize};
 
+use crate::{Address, BusinessType, Currency};
 use crate::config::{Client, Response};
 use crate::ids::AccountId;
 use crate::params::{Deleted, Expand, Expandable, List, Metadata, Object, RangeQuery, Timestamp};
-use crate::resources::{
-    Address, BankAccount, BusinessType, Card, Currency, DelayDays, Dob, File, Person,
-    PersonVerificationParams, VerificationDocumentParams, Weekday,
-};
 
 /// The resource representing a Stripe "Account".
 #[derive(Clone, Debug, Deserialize, Serialize)]

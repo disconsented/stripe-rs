@@ -4,16 +4,13 @@
 
 use serde_derive::{Deserialize, Serialize};
 
+use crate::{Address, Currency, CustomField, Discount, PaymentMethod, PaymentSource, PaymentSourceParams, Scheduled, Shipping, ShippingParams, Subscription, TaxId};
 use crate::config::{Client, Response};
 use crate::ids::{
     AlipayAccountId, BankAccountId, CardId, CouponId, CustomerId, PaymentMethodId, PaymentSourceId,
     PromotionCodeId,
 };
 use crate::params::{Deleted, Expand, Expandable, List, Metadata, Object, RangeQuery, Timestamp};
-use crate::resources::{
-    Address, Currency, CustomField, Discount, PaymentMethod, PaymentSource, PaymentSourceParams,
-    Scheduled, Shipping, ShippingParams, Subscription, TaxId,
-};
 
 /// The resource representing a Stripe "Customer".
 #[derive(Clone, Debug, Deserialize, Serialize)]

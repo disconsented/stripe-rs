@@ -1,7 +1,8 @@
+use serde_derive::Serialize;
+
 use crate::config::{Client, Response};
 use crate::ids::SubscriptionId;
 use crate::resources::{CreateSubscriptionItems, Subscription};
-use serde_derive::Serialize;
 
 #[derive(Clone, Debug, Default, Serialize)]
 pub struct CancelSubscription {
@@ -33,7 +34,6 @@ impl CreateSubscriptionItems {
         Self {
             billing_thresholds: Default::default(),
             metadata: Default::default(),
-            plan: Default::default(),
             price: Default::default(),
             price_data: Default::default(),
             quantity: Default::default(),

@@ -4,10 +4,10 @@
 
 use serde_derive::{Deserialize, Serialize};
 
+use crate::{Currency, SubscriptionItemBillingThresholds};
 use crate::config::{Client, Response};
 use crate::ids::{PriceId, SubscriptionId, SubscriptionItemId};
 use crate::params::{Deleted, Expand, List, Metadata, Object, Timestamp};
-use crate::resources::{Currency, Price, SubscriptionItemBillingThresholds, TaxRate};
 
 /// The resource representing a Stripe "SubscriptionItem".
 #[derive(Clone, Debug, Deserialize, Serialize)]
