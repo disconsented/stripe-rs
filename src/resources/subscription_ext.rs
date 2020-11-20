@@ -34,6 +34,7 @@ impl CreateSubscriptionItems {
         Self {
             billing_thresholds: Default::default(),
             metadata: Default::default(),
+            // plan: Default::default(),
             price: Default::default(),
             price_data: Default::default(),
             quantity: Default::default(),

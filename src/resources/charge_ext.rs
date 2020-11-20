@@ -1,8 +1,9 @@
+use serde_derive::{Deserialize, Serialize};
+
 use crate::config::{Client, Response};
 use crate::ids::{BankAccountId, CardId, ChargeId, SourceId, TokenId};
 use crate::params::Object;
 use crate::resources::{Charge, Rule};
-use serde_derive::{Deserialize, Serialize};
 
 /// The set of PaymentSource parameters that can be used to create a charge.
 ///
@@ -52,4 +53,10 @@ impl Object for Rule {
     fn object(&self) -> &'static str {
         ""
     }
+}
+
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+pub struct PaymentMethodDetailsCardPresent {
+    // Unsure why this was not generated
+    // Dont care about this endpoint for now
 }

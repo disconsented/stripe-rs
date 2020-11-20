@@ -4,13 +4,10 @@
 
 use serde_derive::{Deserialize, Serialize};
 
-use crate::{Address, Currency, CustomField, Discount, PaymentMethod, PaymentSource, PaymentSourceParams, Scheduled, Shipping, ShippingParams, Subscription, TaxId};
 use crate::config::{Client, Response};
-use crate::ids::{
-    AlipayAccountId, BankAccountId, CardId, CouponId, CustomerId, PaymentMethodId, PaymentSourceId,
-    PromotionCodeId,
-};
+use crate::ids::{AlipayAccountId, BankAccountId, CardId, CouponId, CustomerId, PaymentMethodId, PaymentSourceId, PromotionCodeId};
 use crate::params::{Deleted, Expand, Expandable, List, Metadata, Object, RangeQuery, Timestamp};
+use crate::resources::{Address, Currency, CustomField, Discount, PaymentMethod, PaymentSource, PaymentSourceParams, Scheduled, Shipping, ShippingParams, Subscription, TaxId};
 
 /// The resource representing a Stripe "Customer".
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -131,6 +128,7 @@ pub struct Customer {
 }
 
 impl Customer {
+
     /// Returns a list of your customers.
     ///
     /// The customers are returned sorted by creation date, with the most recent customers appearing first.
@@ -157,11 +155,7 @@ impl Customer {
     /// When you update a customer to a new valid card source by passing the **source** parameter: for each of the customer’s current subscriptions, if the subscription bills automatically and is in the `past_due` state, then the latest open invoice for the subscription with automatic collection enabled will be retried.
     /// This retry will not count as an automatic retry, and will not affect the next regularly scheduled payment for the invoice.
     /// Changing the **default_source** for a customer will not trigger this behavior.  This request accepts mostly the same arguments as the customer creation call.
-    pub fn update(
-        client: &Client,
-        id: &CustomerId,
-        params: UpdateCustomer<'_>,
-    ) -> Response<Customer> {
+    pub fn update(client: &Client, id: &CustomerId, params: UpdateCustomer<'_>) -> Response<Customer> {
         client.post_form(&format!("/customers/{}", id), &params)
     }
 

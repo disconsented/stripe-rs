@@ -4,10 +4,11 @@
 
 use serde_derive::{Deserialize, Serialize};
 
-use crate::{Currency, SubscriptionItemBillingThresholds};
 use crate::config::{Client, Response};
 use crate::ids::{PriceId, SubscriptionId, SubscriptionItemId};
 use crate::params::{Deleted, Expand, List, Metadata, Object, Timestamp};
+use crate::resources::{Currency, SubscriptionItemBillingThresholds, TaxRate};
+use crate::resources::price::Price;
 
 /// The resource representing a Stripe "SubscriptionItem".
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -55,48 +56,31 @@ pub struct SubscriptionItem {
 
 impl SubscriptionItem {
     /// Returns a list of your subscription items for a given subscription.
-    pub fn list(
-        client: &Client,
-        params: ListSubscriptionItems<'_>,
-    ) -> Response<List<SubscriptionItem>> {
+    pub fn list(client: &Client, params: ListSubscriptionItems<'_>) -> Response<List<SubscriptionItem>> {
         client.get_query("/subscription_items", &params)
     }
 
     /// Adds a new item to an existing subscription.
     ///
     /// No existing items will be changed or replaced.
-    pub fn create(
-        client: &Client,
-        params: CreateSubscriptionItem<'_>,
-    ) -> Response<SubscriptionItem> {
+    pub fn create(client: &Client, params: CreateSubscriptionItem<'_>) -> Response<SubscriptionItem> {
         client.post_form("/subscription_items", &params)
     }
 
     /// Retrieves the subscription item with the given ID.
-    pub fn retrieve(
-        client: &Client,
-        id: &SubscriptionItemId,
-        expand: &[&str],
-    ) -> Response<SubscriptionItem> {
+    pub fn retrieve(client: &Client, id: &SubscriptionItemId, expand: &[&str]) -> Response<SubscriptionItem> {
         client.get_query(&format!("/subscription_items/{}", id), &Expand { expand })
     }
 
     /// Updates the plan or quantity of an item on a current subscription.
-    pub fn update(
-        client: &Client,
-        id: &SubscriptionItemId,
-        params: UpdateSubscriptionItem<'_>,
-    ) -> Response<SubscriptionItem> {
+    pub fn update(client: &Client, id: &SubscriptionItemId, params: UpdateSubscriptionItem<'_>) -> Response<SubscriptionItem> {
         client.post_form(&format!("/subscription_items/{}", id), &params)
     }
 
     /// Deletes an item from the subscription.
     ///
     /// Removing a subscription item from a subscription will not cancel the subscription.
-    pub fn delete(
-        client: &Client,
-        id: &SubscriptionItemId,
-    ) -> Response<Deleted<SubscriptionItemId>> {
+    pub fn delete(client: &Client, id: &SubscriptionItemId) -> Response<Deleted<SubscriptionItemId>> {
         client.delete(&format!("/subscription_items/{}", id))
     }
 }

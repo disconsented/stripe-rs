@@ -3,7 +3,7 @@ use serde_derive::{Deserialize, Serialize};
 
 use crate::ids::{PaymentSourceId, SourceId, TokenId};
 use crate::params::Object;
-use crate::resources::{Card, Currency};
+use crate::resources::{Account, AlipayAccount, BankAccount, Card, Currency, Source};
 
 /// A PaymentSourceParams represents all of the supported ways that can
 /// be used to creating a new customer with a payment method or creating
@@ -61,14 +61,15 @@ impl<'a> ::serde::Serialize for PaymentSourceParams {
 /// Not to be confused with `Source` which represents a "generic" payment method
 /// returned by the `Source::get` (which could still be a credit card, etc)
 /// but is not necessarily attached to either a customer or charge.
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(tag = "object", rename_all = "snake_case")]
 pub enum PaymentSource {
     Card(Card),
-    // Source(Source),
-    // Account(Account),
-    // BankAccount(BankAccount),
-    // AlipayAccount(AlipayAccount),
+    Source(Source),
+    Account(Account),
+    BankAccount(BankAccount),
+    AlipayAccount(AlipayAccount),
 }
 
 impl Object for PaymentSource {

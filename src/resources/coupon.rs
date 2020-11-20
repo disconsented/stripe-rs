@@ -5,9 +5,9 @@
 use serde_derive::{Deserialize, Serialize};
 
 use crate::config::{Client, Response};
-use crate::Currency;
 use crate::ids::CouponId;
 use crate::params::{Deleted, Expand, List, Metadata, Object, RangeQuery, Timestamp};
+use crate::resources::Currency;
 
 /// The resource representing a Stripe "Coupon".
 #[derive(Clone, Debug, Deserialize, Serialize)]

@@ -3,7 +3,7 @@ use serde_derive::{Deserialize, Serialize};
 use crate::config::{Client, Response};
 use crate::ids::{BankAccountId, CardId, CustomerId, PaymentSourceId};
 use crate::params::Deleted;
-use crate::resources::{Customer, PaymentSource, PaymentSourceParams};
+use crate::resources::{BankAccount, Customer, PaymentSource, PaymentSourceParams, Source};
 
 impl Customer {
     /// Attaches a source to a customer, does not change default Source for the Customer

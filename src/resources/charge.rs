@@ -7,13 +7,9 @@ use serde_derive::{Deserialize, Serialize};
 use crate::config::{Client, Response};
 use crate::ids::{ChargeId, CustomerId, PaymentIntentId};
 use crate::params::{Expand, Expandable, List, Metadata, Object, RangeQuery, Timestamp};
-
-// use crate::resources::{
-//     Account, Address, Application, ApplicationFee, BalanceTransaction, BillingDetails,
-//     ChargeSourceParams, Currency, Customer, FraudDetailsReport, Invoice, Mandate, Order,
-//     PaymentIntent, PaymentMethod, PaymentMethodDetailsCardInstallmentsPlan,
-//     PaymentMethodDetailsCardPresent, Refund, Review, Shipping, ThreeDSecureDetails, Transfer,
-// };
+use crate::PaymentMethodDetailsCardPresent;
+use crate::resources::{Account, Address, Application, ApplicationFee, BalanceTransaction, BillingDetails, ChargeSourceParams, Currency, Customer, FraudDetailsReport, Invoice, Mandate, Order, PaymentIntent, PaymentMethod, Refund, Review, Shipping, ThreeDSecure, Transfer};
+use crate::resources::placeholders_ext::PaymentMethodDetailsCardInstallmentsPlan;
 
 /// The resource representing a Stripe "Charge".
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -218,6 +214,7 @@ pub struct Charge {
 }
 
 impl Charge {
+
     /// Returns a list of charges you’ve previously created.
     ///
     /// The charges are returned in sorted order, with the most recent charges appearing first.
@@ -261,6 +258,7 @@ impl Object for Charge {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct FraudDetails {
+
     /// Assessments from Stripe.
     ///
     /// If set, the value is `fraudulent`.
@@ -608,7 +606,7 @@ pub struct PaymentMethodDetailsCard {
 
     /// Populated if this transaction used 3D Secure authentication.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub three_d_secure: Option<ThreeDSecureDetails>,
+    pub three_d_secure: Option<ThreeDSecure>,
 
     /// If this Card is part of a card wallet, this contains the details of the card wallet.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1633,15 +1631,9 @@ impl PaymentMethodDetailsInteracPresentReadMethod {
         match self {
             PaymentMethodDetailsInteracPresentReadMethod::ContactEmv => "contact_emv",
             PaymentMethodDetailsInteracPresentReadMethod::ContactlessEmv => "contactless_emv",
-            PaymentMethodDetailsInteracPresentReadMethod::ContactlessMagstripeMode => {
-                "contactless_magstripe_mode"
-            }
-            PaymentMethodDetailsInteracPresentReadMethod::MagneticStripeFallback => {
-                "magnetic_stripe_fallback"
-            }
-            PaymentMethodDetailsInteracPresentReadMethod::MagneticStripeTrack2 => {
-                "magnetic_stripe_track2"
-            }
+            PaymentMethodDetailsInteracPresentReadMethod::ContactlessMagstripeMode => "contactless_magstripe_mode",
+            PaymentMethodDetailsInteracPresentReadMethod::MagneticStripeFallback => "magnetic_stripe_fallback",
+            PaymentMethodDetailsInteracPresentReadMethod::MagneticStripeTrack2 => "magnetic_stripe_track2",
         }
     }
 }

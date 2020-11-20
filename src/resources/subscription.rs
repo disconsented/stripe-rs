@@ -4,10 +4,12 @@
 
 use serde_derive::{Deserialize, Serialize};
 
-use crate::{Currency, Scheduled, SubscriptionBillingThresholds, SubscriptionItem, SubscriptionItemBillingThresholds};
 use crate::config::{Client, Response};
 use crate::ids::{CouponId, CustomerId, PriceId, PromotionCodeId, SubscriptionId};
 use crate::params::{Deleted, Expand, Expandable, List, Metadata, Object, RangeQuery, Timestamp};
+use crate::resources::{CollectionMethod, Currency, Customer, Discount, Invoice, PaymentMethod, PaymentSource, Scheduled, SetupIntent, SubscriptionBillingThresholds, SubscriptionItem, SubscriptionItemBillingThresholds, TaxRate};
+use crate::resources::placeholders_ext::SubscriptionTransferData;
+use crate::resources::subscription_schedule::SubscriptionSchedule;
 
 /// The resource representing a Stripe "Subscription".
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -180,6 +182,7 @@ pub struct Subscription {
 }
 
 impl Subscription {
+
     /// By default, returns a list of subscriptions that have not been canceled.
     ///
     /// In order to list canceled subscriptions, specify `status=canceled`.
@@ -195,11 +198,7 @@ impl Subscription {
     }
 
     /// Retrieves the subscription with the given ID.
-    pub fn retrieve(
-        client: &Client,
-        id: &SubscriptionId,
-        expand: &[&str],
-    ) -> Response<Subscription> {
+    pub fn retrieve(client: &Client, id: &SubscriptionId, expand: &[&str]) -> Response<Subscription> {
         client.get_query(&format!("/subscriptions/{}", id), &Expand { expand })
     }
 
@@ -207,11 +206,7 @@ impl Subscription {
     ///
     /// When changing plans or quantities, we will optionally prorate the price we charge next month to make up for any price changes.
     /// To preview how the proration will be calculated, use the [upcoming invoice](https://stripe.com/docs/api#upcoming_invoice) endpoint.
-    pub fn update(
-        client: &Client,
-        id: &SubscriptionId,
-        params: UpdateSubscription<'_>,
-    ) -> Response<Subscription> {
+    pub fn update(client: &Client, id: &SubscriptionId, params: UpdateSubscription<'_>) -> Response<Subscription> {
         client.post_form(&format!("/subscriptions/{}", id), &params)
     }
 

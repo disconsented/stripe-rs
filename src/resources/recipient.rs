@@ -75,6 +75,7 @@ pub struct Recipient {
 }
 
 impl Recipient {
+
     /// Returns a list of your recipients.
     ///
     /// The recipients are returned sorted by creation date, with the most recently created recipients appearing first.
@@ -100,11 +101,7 @@ impl Recipient {
     ///
     /// If you update the name or tax ID, the identity verification will automatically be rerun.
     /// If you update the bank account, the bank account validation will automatically be rerun.
-    pub fn update(
-        client: &Client,
-        id: &RecipientId,
-        params: UpdateRecipient<'_>,
-    ) -> Response<Recipient> {
+    pub fn update(client: &Client, id: &RecipientId, params: UpdateRecipient<'_>) -> Response<Recipient> {
         client.post_form(&format!("/recipients/{}", id), &params)
     }
 

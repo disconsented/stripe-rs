@@ -446,6 +446,8 @@ impl std::error::Error for ParseIdError {
 
 def_id!(AccountId, "acct_");
 def_id!(AlipayAccountId, "aliacc_");
+// TODO: Proper value
+def_id!(ApplePayDomainId, "aplacc_");
 def_id!(ApplicationFeeId, "fee_");
 def_id!(ApplicationFeeRefundId, "fr_");
 def_id!(BalanceTransactionId, "txn_");
@@ -465,14 +467,17 @@ def_id!(
         Topup(TopupId),
         Transfer(TransferId),
         TransferReversal(TransferReversalId),
+        IssuingDispute(IssuingDisputeId),
     }
 );
+
 def_id!(CardId, "card_");
 def_id!(CardTokenId, "tok_");
 def_id!(ChargeId, "ch_" | "py_"); // TODO: Understand (and then document) why "py_" is a valid charge id
 def_id!(CheckoutSessionId, "cs_");
 def_id!(CheckoutSessionItemId: String); // TODO: Figure out what prefix this id has
 def_id!(CouponId: String); // N.B. A coupon id can be user-provided so can be any arbitrary string
+
 def_id!(CustomerId, "cus_");
 def_id!(DisputeId, "dp_");
 def_id!(DiscountId, "di_");
@@ -541,6 +546,62 @@ def_id!(TopupId, "tu_");
 def_id!(TransferId, "tr_");
 def_id!(TransferReversalId, "trr_");
 def_id!(WebhookEndpointId, "we_");
+
+
+// TODO: Proper value
+def_id!(CountrySpecId, "foo_");
+// TODO: Proper value
+def_id!(CreditNoteId, "foo_");
+// TODO: Proper value
+def_id!(BitcoinTransactionid, "foo_");
+// TODO: Proper value
+def_id!(BillingPortalSessionId, "foo_");
+// TODO: Proper value
+def_id!(CapabilityId, "foo_");
+// TODO: Proper value
+// def_id!("foo_");
+// TODO: Proper value
+def_id!(EphemeralKeyId, "foo_");
+// TODO: Proper value
+def_id!(ExchangeRateId, "foo_");
+// TODO: Proper value
+def_id!(IssuerFraudRecordId, "foo_");
+// TODO: Proper value
+def_id!(IssuingSettlementId, "foo_");
+// TODO: Proper value
+def_id!(RadarEarlyFraudWarningId, "foo_");
+// TODO: Proper value
+def_id!(SourceMandateNotificationId, "foo_");
+// TODO: Proper value
+def_id!(TerminalLocationId, "foo_");
+// TODO: Proper value
+def_id!(TerminalReaderId, "foo_");
+// TODO: Proper value
+def_id!(ThreeDSecureId, "foo_");
+// TODO: Proper value
+def_id!(UsageRecordId, "foo_");
+// TODO: Proper value
+def_id!(UsageRecordSummaryId, "foo_");
+// TODO: Proper value
+def_id!(IssuingDisputelId, "foo_");
+// TODO: Proper value
+def_id!(SetupAttemptId, "foo_");
+// TODO: Proper value
+def_id!(BitcoinReceiverId, "foo_");
+// TODO: Proper value
+def_id!(BitcoinTransactionId, "foo_");
+// TODO: Proper value
+def_id!(CreditNoteLineItemId, "foo_");
+// TODO: Proper value
+def_id!(RadarValueListId, "foo_");
+// TODO: Proper value
+def_id!(ReportingReportRunId, "foo_");
+// TODO: Proper value
+def_id!(ReportingReportTypeId, "foo_");
+// TODO: Proper value
+def_id!(RadarValueListItemId, "foo_");
+// TODO: Proper value
+def_id!(CustomerBalanceTransactionId, "foo_");
 
 impl InvoiceId {
     pub(crate) fn none() -> Self {

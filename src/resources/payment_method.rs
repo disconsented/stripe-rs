@@ -4,10 +4,12 @@
 
 use serde_derive::{Deserialize, Serialize};
 
-use crate::{Address, BillingDetails, Charge, Customer};
 use crate::config::{Client, Response};
 use crate::ids::{CustomerId, PaymentMethodId};
 use crate::params::{Expand, Expandable, List, Metadata, Object, Timestamp};
+use crate::PaymentMethodDetailsCardPresent;
+use crate::resources::{Address, BillingDetails, Charge, Customer};
+use crate::resources::setup_attempt::SetupAttempt;
 
 /// The resource representing a Stripe "PaymentMethod".
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -91,6 +93,7 @@ pub struct PaymentMethod {
 }
 
 impl PaymentMethod {
+
     /// Returns a list of PaymentMethods for a given Customer.
     pub fn list(client: &Client, params: ListPaymentMethods<'_>) -> Response<List<PaymentMethod>> {
         client.get_query("/payment_methods", &params)
@@ -104,22 +107,14 @@ impl PaymentMethod {
     }
 
     /// Retrieves a PaymentMethod object.
-    pub fn retrieve(
-        client: &Client,
-        id: &PaymentMethodId,
-        expand: &[&str],
-    ) -> Response<PaymentMethod> {
+    pub fn retrieve(client: &Client, id: &PaymentMethodId, expand: &[&str]) -> Response<PaymentMethod> {
         client.get_query(&format!("/payment_methods/{}", id), &Expand { expand })
     }
 
     /// Updates a PaymentMethod object.
     ///
     /// A PaymentMethod must be attached a customer to be updated.
-    pub fn update(
-        client: &Client,
-        id: &PaymentMethodId,
-        params: UpdatePaymentMethod<'_>,
-    ) -> Response<PaymentMethod> {
+    pub fn update(client: &Client, id: &PaymentMethodId, params: UpdatePaymentMethod<'_>) -> Response<PaymentMethod> {
         client.post_form(&format!("/payment_methods/{}", id), &params)
     }
 }
