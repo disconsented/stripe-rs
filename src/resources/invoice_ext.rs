@@ -1,7 +1,6 @@
 use serde_derive::Serialize;
-use smol_str::SmolStr;
 
-use crate::{CreateSubscriptionItem, CreateSubscriptionItems, Discount, DiscountId};
+use crate::{CreateSubscriptionItems, DiscountId};
 use crate::config::{Client, Response};
 use crate::ids::{CouponId, CustomerId, InvoiceId, PlanId, SubscriptionId, SubscriptionItemId};
 use crate::params::{Metadata, Timestamp};

@@ -490,6 +490,8 @@ def_id!(
     enum InvoiceLineItemId {
         Item(InvoiceItemId),
         Subscription(SubscriptionLineId),
+        Price(PriceId),
+        LineItem(LineItemId)
     }
 );
 def_id!(IssuingAuthorizationId, "iauth_");
@@ -520,7 +522,7 @@ def_id!(
 );
 def_id!(PersonId, "person_");
 def_id!(PlanId: String); // N.B. A plan id can be user-provided so can be any arbitrary string
-def_id!(PriceId: String); // TODO: Figure out what prefix this id has
+def_id!(PriceId, "price_");
 def_id!(ProductId: String); // N.B. A product id can be user-provided so can be any arbitrary string
 def_id!(PromotionCodeId, "promo_"); // N.B. A product id can be user-provided so can be any arbitrary string
 def_id!(RecipientId: String); // FIXME: This doesn't seem to be documented yet
@@ -602,6 +604,7 @@ def_id!(ReportingReportTypeId, "foo_");
 def_id!(RadarValueListItemId, "foo_");
 // TODO: Proper value
 def_id!(CustomerBalanceTransactionId, "foo_");
+def_id!(LineItemId, "il_");
 
 impl InvoiceId {
     pub(crate) fn none() -> Self {
