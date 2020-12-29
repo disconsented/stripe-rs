@@ -1,5 +1,6 @@
 use serde_derive::Serialize;
 
+use crate::{CreateSubscriptionItem, CreateSubscriptionItems};
 use crate::config::{Client, Response};
 use crate::ids::{CouponId, CustomerId, InvoiceId, PlanId, SubscriptionId, SubscriptionItemId};
 use crate::params::{Metadata, Timestamp};
@@ -33,7 +34,7 @@ pub struct RetrieveUpcomingInvoice {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub subscription: Option<SubscriptionId>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub subscription_items: Option<SubscriptionItemFilter>,
+    pub subscription_items: Option<Vec<CreateSubscriptionItems>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub subscription_prorate: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
