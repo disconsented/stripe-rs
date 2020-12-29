@@ -26,8 +26,8 @@ impl Invoice {
 
 #[derive(Clone, Debug, Serialize)]
 pub struct RetrieveUpcomingInvoice {
-    pub customer: CustomerId,
-    // this is a required param
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub customer: Option<CustomerId>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub coupon: Option<CouponId>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -47,7 +47,7 @@ pub struct RetrieveUpcomingInvoice {
 impl RetrieveUpcomingInvoice {
     pub fn new(customer: CustomerId) -> Self {
         RetrieveUpcomingInvoice {
-            customer,
+            customer: Some(customer),
             coupon: None,
             subscription: None,
             subscription_items: None,
