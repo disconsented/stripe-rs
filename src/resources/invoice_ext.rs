@@ -1,6 +1,7 @@
 use serde_derive::Serialize;
+use smol_str::SmolStr;
 
-use crate::{CreateSubscriptionItem, CreateSubscriptionItems};
+use crate::{CreateSubscriptionItem, CreateSubscriptionItems, Discount, DiscountId};
 use crate::config::{Client, Response};
 use crate::ids::{CouponId, CustomerId, InvoiceId, PlanId, SubscriptionId, SubscriptionItemId};
 use crate::params::{Metadata, Timestamp};
@@ -29,8 +30,11 @@ impl Invoice {
 pub struct RetrieveUpcomingInvoice {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub customer: Option<CustomerId>,
+    #[deprecated]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub coupon: Option<CouponId>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub discounts: Option<Vec<Discounts>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub subscription: Option<SubscriptionId>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -50,6 +54,7 @@ impl RetrieveUpcomingInvoice {
         RetrieveUpcomingInvoice {
             customer: Some(customer),
             coupon: None,
+            discounts: None,
             subscription: None,
             subscription_items: None,
             subscription_prorate: None,
@@ -72,4 +77,12 @@ pub struct SubscriptionItemFilter {
     pub plan: Option<PlanId>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub quantity: Option<u64>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub struct Discounts {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub coupon: Option<CouponId>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub discount: Option<DiscountId>,
 }
