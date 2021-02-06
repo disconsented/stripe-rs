@@ -4,6 +4,7 @@
 
 use serde_derive::{Deserialize, Serialize};
 
+use crate::{Client, CustomerId, Response};
 use crate::ids::BillingPortalSessionId;
 use crate::params::{Object, Timestamp};
 
@@ -29,6 +30,20 @@ pub struct BillingPortalSession {
 
     /// The short-lived URL of the session giving customers access to the customer portal.
     pub url: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct CreateBillingPortalSession {
+    pub customer: CustomerId,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub return_url: Option<String>,
+}
+
+impl BillingPortalSession {
+    pub fn create(client: &Client, params: CreateBillingPortalSession) -> Response<BillingPortalSession> {
+        client.post_form("/billing_portal/sessions", &params)
+    }
 }
 
 impl Object for BillingPortalSession {
