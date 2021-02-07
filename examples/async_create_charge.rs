@@ -1,4 +1,4 @@
-use stripe::client::async::Client;
+use stripe::client::r#async::Client;
 
 #[tokio::main]
 async fn main() {
