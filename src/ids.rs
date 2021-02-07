@@ -557,7 +557,7 @@ def_id!(CreditNoteId, "foo_");
 // TODO: Proper value
 def_id!(BitcoinTransactionid, "foo_");
 // TODO: Proper value
-def_id!(BillingPortalSessionId, "foo_");
+def_id!(BillingPortalSessionId, "bps_");
 // TODO: Proper value
 def_id!(CapabilityId, "foo_");
 // TODO: Proper value
