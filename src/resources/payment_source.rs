@@ -28,13 +28,14 @@ impl<'de> ::serde::Deserialize<'de> for PaymentSourceParams {
             D: ::serde::de::Deserializer<'de>,
     {
         use serde::de::{Deserialize, Error};
-        use serde::private::de::{Content, ContentRefDeserializer};
-        let content = <Content<'_> as Deserialize>::deserialize(deserializer)?;
-        let deserializer = ContentRefDeserializer::<D::Error>::new(&content);
+        use serde_value::{ValueDeserializer};
+
+        let content = <serde_value::Value as Deserialize>::deserialize(deserializer)?;
+        let deserializer = ValueDeserializer::<D::Error>::new(content.clone());
         if let Ok(ok) = <SourceId as Deserialize>::deserialize(deserializer) {
             return Ok(PaymentSourceParams::Source(ok));
         }
-        let deserializer = ContentRefDeserializer::<D::Error>::new(&content);
+        let deserializer = ValueDeserializer::<D::Error>::new(content);
         if let Ok(ok) = <TokenId as Deserialize>::deserialize(deserializer) {
             return Ok(PaymentSourceParams::Token(ok));
         }
