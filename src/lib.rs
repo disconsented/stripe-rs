@@ -57,17 +57,6 @@
 #![allow(clippy::needless_pass_by_value)]
 #![allow(clippy::large_enum_variant)]
 
-mod client {
-    pub mod r#async;
-    #[cfg(feature = "blocking")]
-    pub mod blocking;
-}
-
-mod error;
-mod ids;
-mod params;
-mod resources;
-
 // N.B. Ideally we would support both a blocking client and
 //      an async client without a feature flag, but the originally
 //      discussed solution requires Generic Associated Types--
@@ -82,9 +71,24 @@ pub use crate::params::{
 };
 pub use crate::resources::*;
 
+pub use self::config::Client;
+pub use self::config::Response;
+
+pub mod client {
+    pub mod r#async;
+    #[cfg(feature = "blocking")]
+    pub mod blocking;
+}
+
+mod error;
+mod ids;
+mod params;
+mod resources;
+
 #[cfg(feature = "blocking")]
 mod config {
     pub(crate) use crate::client::blocking::{err, ok};
+
     pub type Client = crate::client::blocking::Client;
 
     /// An alias for `Result`.
@@ -107,9 +111,8 @@ mod config {
 #[cfg(not(feature = "blocking"))]
 mod config {
     pub(crate) use crate::client::r#async::{err, ok};
+
     pub type Client = crate::client::r#async::Client;
     pub type Response<T> = crate::client::r#async::Response<T>;
 }
 
-pub use self::config::Client;
-pub use self::config::Response;
