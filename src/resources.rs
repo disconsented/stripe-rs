@@ -311,6 +311,7 @@ pub mod three_d_secure;
 pub mod usage_record;
 pub mod usage_record_summary;
 pub mod placeholders_ext;
+pub mod event_ext;
 
 
 #[cfg(not(feature = "account"))]

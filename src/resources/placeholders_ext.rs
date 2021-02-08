@@ -27,6 +27,3 @@ pub struct ExchangeRateRates {}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct CountrySpecSupportedBankAccountCurrencies {}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct NotificationEventData {}

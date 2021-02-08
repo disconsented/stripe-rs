@@ -5,9 +5,9 @@
 use serde_derive::{Deserialize, Serialize};
 
 use crate::config::{Client, Response};
+use crate::event_ext::NotificationEventData;
 use crate::ids::EventId;
 use crate::params::{Expand, List, Object, RangeQuery, Timestamp};
-use crate::resources::placeholders_ext::NotificationEventData;
 
 /// The resource representing a Stripe "NotificationEvent".
 #[derive(Clone, Debug, Deserialize, Serialize)]
